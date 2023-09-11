@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Title from './Title';
 import RecordMessage from './RecordMessage';
+import axios from 'axios';
 
 function Controller() {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,10 +29,15 @@ function Controller() {
         formData.append('file', blob, 'myFile.vav');
 
         // Send form data to API endpoint
-        await axios.post('http://localhost:8000/post-audio', formData, {
-          headers: { 'Content-Type': 'audio/mpeg' },
-          responseType: 'arraybuffer',
-        });
+        await axios
+          .post('http://localhost:8000/post-audio', formData, {
+            headers: { 'Content-Type': 'audio/mpeg' },
+            responseType: 'arraybuffer',
+          })
+          .then((res: any) => {
+            
+          })
+          .catch((err) => {});
       });
 
     setIsLoading(false);
