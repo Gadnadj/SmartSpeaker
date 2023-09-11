@@ -13,7 +13,28 @@ function Controller() {
   };
 
   const handleStop = async (blobUrl: string) => {
-    console.log(blobUrl);
+    setIsLoading(true);
+
+    // Append Recorded message to messages
+    const myMessage = { sender: 'me', blubUrl: blobUrl };
+    const messagesArr = [...messages, myMessage];
+
+    // Convert blob url to blob object
+    fetch(blobUrl)
+      .then((res) => res.blob())
+      .then(async (blob) => {
+        // Construct audio to send file
+        const formData = new FormData();
+        formData.append('file', blob, 'myFile.vav');
+
+        // Send form data to API endpoint
+        await axios.post('http://localhost:8000/post-audio', formData, {
+          headers: { 'Content-Type': 'audio/mpeg' },
+          responseType: 'arraybuffer',
+        });
+      });
+
+    setIsLoading(false);
   };
 
   return (
