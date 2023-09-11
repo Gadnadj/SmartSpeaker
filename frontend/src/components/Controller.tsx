@@ -6,9 +6,15 @@ function Controller() {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<any[]>([]);
 
-  const createBlobUrl = (data: any) => {};
+  const createBlobUrl = (data: any) => {
+    const blob = new Blob([data], { type: 'audio/mpeg' });
+    const url = window.URL.createObjectURL(blob);
+    return url;
+  };
 
-  const handleStop = async () => {};
+  const handleStop = async (blobUrl: string) => {
+    console.log(blobUrl);
+  };
 
   return (
     <div className='h-screen overflow-y-hidden'>
