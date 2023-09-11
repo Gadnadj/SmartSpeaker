@@ -1,3 +1,4 @@
+# source venv/bin/activate
 # uvicorn main:app
 # uvicorn main:app --reload
 
