@@ -6,6 +6,18 @@ import RecordMessage from './RecordMessage';
 const Controller = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<any[]>([]);
+  const [selectedVoice, setSelectedVoice] = useState('rachel');
+
+  const availableVoices = [
+    { id: 'rachel', name: 'Rachel' },
+    { id: 'shaun', name: 'Shaun' },
+    { id: 'antoni', name: 'Antoni' },
+  ];
+
+  const handleVoiceChange = (voiceID: string) => {
+    console.log('Voice changed to:', voiceID);
+    setSelectedVoice(voiceID);
+  };
 
   function createBlobURL(data: any) {
     const blob = new Blob([data], { type: 'audio/mpeg' });
@@ -62,6 +74,24 @@ const Controller = () => {
       {/* Title */}
       <Title setMessages={setMessages} />
 
+      {/* Button of selection voices */}
+      <div className='text-center mt-3'>
+        {availableVoices.map((voice) => (
+          <button
+            key={voice.id}
+            onClick={() => handleVoiceChange(voice.id)}
+            className={`mx-2 px-4 py-2 ${
+              selectedVoice === voice.id
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-300 text-black'
+            }`}
+          >
+            {voice.name}
+          </button>
+        ))}
+      </div>
+
+      {/* Flex container */}
       <div className='flex flex-col justify-between h-full overflow-y-scroll pb-96'>
         {/* Conversation */}
         <div className='mt-5 px-5'>
@@ -71,14 +101,14 @@ const Controller = () => {
                 key={index + audio.sender}
                 className={
                   'flex flex-col ' +
-                  (audio.sender == 'rachel' && 'flex items-end')
+                  (audio.sender === 'rachel' ? 'flex items-end' : '')
                 }
               >
                 {/* Sender */}
                 <div className='mt-4 '>
                   <p
                     className={
-                      audio.sender == 'rachel'
+                      audio.sender === 'rachel'
                         ? 'text-right mr-2 italic text-green-500'
                         : 'ml-2 italic text-blue-500'
                     }
@@ -97,7 +127,7 @@ const Controller = () => {
             );
           })}
 
-          {messages.length == 0 && !isLoading && (
+          {messages.length === 0 && !isLoading && (
             <div className='text-center font-light italic mt-10'>
               Send Rachel a message...
             </div>
@@ -105,7 +135,7 @@ const Controller = () => {
 
           {isLoading && (
             <div className='text-center font-light italic mt-10 animate-pulse'>
-              Gimme a few seconds...
+              Wait a few seconds...
             </div>
           )}
         </div>
