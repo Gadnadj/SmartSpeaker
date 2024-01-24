@@ -8,7 +8,7 @@ def get_recent_messages():
   # Define the file name
   file_name = "stored_data.json"
   learn_instruction = {"role": "system", 
-                       "content": "You are a human and your name is Rachel, the user is called Gad. Keep responses under 50 words. "}
+                       "content": "You are a human and your name is Rachel, FOr your first conversation with someone, ask him his name and then help him with what he wants."}
   
   # Initialize messages
   messages = []

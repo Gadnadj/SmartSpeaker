@@ -17,6 +17,7 @@ def convert_text_to_speech(message):
   voice_shaun = "mTSvIrm2hmcnOvb21nW2"
   voice_rachel = "21m00Tcm4TlvDq8ikWAM"
   voice_antoni = "ErXwobaYiN019PkySvjV"
+  voice_children = 'yi1Q6GP2jWKJk3kJ1uIS'
 
   # Construct request headers and url
   headers = { "xi-api-key": ELEVEN_LABS_API_KEY, "Content-Type": "application/json", "accept": "audio/mpeg" }
