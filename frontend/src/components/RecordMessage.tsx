@@ -3,6 +3,7 @@ import RecordIcon from './RecordIcon';
 
 type Props = {
   handleStop: any;
+  selectedVoice: string;
 };
 
 const RecordMessage = ({ handleStop }: Props) => {
