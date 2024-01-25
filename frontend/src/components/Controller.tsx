@@ -12,7 +12,24 @@ const Controller = () => {
     { id: 'rachel', name: 'Rachel' },
     { id: 'shaun', name: 'Shaun' },
     { id: 'antoni', name: 'Antoni' },
+    { id: 'sarah', name: 'Sarah' },
   ];
+
+  const getMessageLabel = () => {
+    switch (selectedVoice) {
+      case 'rachel':
+        return 'Send Rachel a message';
+      case 'shaun':
+        return 'Send Shaun a message';
+      case 'antoni':
+        return 'Send Antoni a message';
+      case 'sarah':
+        return 'Send Sarah a message';
+      // Ajoutez d'autres cas selon vos voix disponibles
+      default:
+        return 'Send a message';
+    }
+  };
 
   const handleVoiceChange = (voiceID: string) => {
     console.log('Voice changed to:', voiceID);
@@ -58,7 +75,10 @@ const Controller = () => {
             audio.src = createBlobURL(blob);
 
             // Append to audio
-            const rachelMessage = { sender: 'rachel', blobUrl: audio.src };
+            const rachelMessage = {
+              sender: selectedVoice,
+              blobUrl: audio.src,
+            };
             messagesArr.push(rachelMessage);
             setMessages(messagesArr);
 
@@ -103,16 +123,20 @@ const Controller = () => {
             return (
               <div
                 key={index + audio.sender}
-                className={
-                  'flex flex-col ' +
-                  (audio.sender === 'rachel' ? 'flex items-end' : '')
-                }
+                className={`flex flex-col ${
+                  audio.sender === 'rachel' ? 'flex items-end' : ''
+                } ${audio.sender === 'antoni' ? 'flex items-end' : ''} ${
+                  audio.sender === 'sarah' ? 'flex items-end' : ''
+                } ${audio.sender === 'shaun' ? 'flex items-end' : ''}`}
               >
                 {/* Sender */}
                 <div className='mt-4 '>
                   <p
                     className={
-                      audio.sender === 'rachel'
+                      audio.sender === 'rachel' ||
+                      audio.sender === 'antoni' ||
+                      audio.sender === 'sarah' ||
+                      audio.sender === 'shaun'
                         ? 'text-right mr-2 italic text-green-500'
                         : 'ml-2 italic text-blue-500'
                     }
@@ -133,7 +157,8 @@ const Controller = () => {
 
           {messages.length === 0 && !isLoading && (
             <div className='text-center font-light italic mt-10'>
-              Send Rachel a message...
+              Send {selectedVoice} a message...{' '}
+              {/* Dynamically display selected voice */}
             </div>
           )}
 
@@ -148,7 +173,10 @@ const Controller = () => {
         <div className='fixed bottom-0 w-full py-6 border-t text-center bg-gradient-to-r from-sky-500 to-green-500'>
           <div className='flex justify-center items-center w-full'>
             <div>
-              <RecordMessage handleStop={handleStop} />
+              <RecordMessage
+                handleStop={handleStop}
+                selectedVoice={selectedVoice}
+              />
             </div>
           </div>
         </div>

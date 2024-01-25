@@ -16,8 +16,8 @@ def convert_text_to_speech(message, selected_voice):
     voice_mapping = {
         "shaun": "9F4C8ztpNUmXkdDDbz3J",
         "rachel": "21m00Tcm4TlvDq8ikWAM",
-        "antoni": "yi1Q6GP2jWKJk3kJ1uIS",
-        "children": "yi1Q6GP2jWKJk3kJ1uIS"
+        "antoni": "9F4C8ztpNUmXkdDDbz3J",
+        "sarah": "yi1Q6GP2jWKJk3kJ1uIS"
         # Add more voices as needed
     }
 
