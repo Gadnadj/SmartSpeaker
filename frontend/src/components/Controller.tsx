@@ -16,7 +16,10 @@ const Controller = () => {
 
   const handleVoiceChange = (voiceID: string) => {
     console.log('Voice changed to:', voiceID);
-    setSelectedVoice(voiceID);
+    setSelectedVoice((prevVoice) => {
+      console.log('Selected voice:', voiceID);
+      return voiceID;
+    });
   };
 
   function createBlobURL(data: any) {
@@ -43,6 +46,7 @@ const Controller = () => {
         // send form data to api endpoint
         await axios
           .post('http://localhost:8000/post-audio', formData, {
+            params: { voice: selectedVoice },
             headers: {
               'Content-Type': 'audio/mpeg',
             },

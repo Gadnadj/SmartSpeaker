@@ -8,6 +8,9 @@ from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from decouple import config
 import openai
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 
 # Custom function imports
@@ -60,7 +63,7 @@ async def reset_conversation():
 # Post bot response
 # Note: Not playing back in browser when using post request.
 @app.post("/post-audio/")
-async def post_audio(file: UploadFile = File(...)):
+async def post_audio(file: UploadFile = File(...), voice: str = 'rachel'):
 
     # Convert audio to text - production
     # Save the file temporarily
@@ -86,10 +89,12 @@ async def post_audio(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="Failed chat response")
 
     # Convert chat response to audio
-    audio_output = convert_text_to_speech(chat_response)
+    logging.debug(f"Converting text to speech with voice: {voice}")
+    audio_output = convert_text_to_speech(chat_response, selected_voice = voice)
 
     # Guard: Ensure output
     if not audio_output:
+        logging.error("Failed audio output")
         raise HTTPException(status_code=400, detail="Failed audio output")
 
     # Create a generator that yields chunks of data
