@@ -15,22 +15,6 @@ const Controller = () => {
     { id: 'sarah', name: 'Sarah' },
   ];
 
-  const getMessageLabel = () => {
-    switch (selectedVoice) {
-      case 'rachel':
-        return 'Send Rachel a message';
-      case 'shaun':
-        return 'Send Shaun a message';
-      case 'antoni':
-        return 'Send Antoni a message';
-      case 'sarah':
-        return 'Send Sarah a message';
-      // Ajoutez d'autres cas selon vos voix disponibles
-      default:
-        return 'Send a message';
-    }
-  };
-
   const handleVoiceChange = (voiceID: string) => {
     console.log('Voice changed to:', voiceID);
     setSelectedVoice((prevVoice) => {
