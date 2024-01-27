@@ -33,11 +33,15 @@ ELEVEN_LABS_API_KEY=your_elevenlabs_api_key
 Go back to the backend terminal and activate the virtual environment:
 
 source venv/bin/activate
-Start the backend server with uvicorn main:app
+
+Start the backend server with:
+
+uvicorn main:app
 
 In the frontend terminal, launch the development server with yarn:
 
 yarn dev
+
 Open your browser and go to http://localhost:5173/.
 
 Experience the interactive Jarvis Smart Speaker on your local environment! 🚀
