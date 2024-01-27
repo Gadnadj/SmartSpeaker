@@ -59,11 +59,11 @@ const Controller = () => {
             audio.src = createBlobURL(blob);
 
             // Append to audio
-            const rachelMessage = {
+            const speakerMessage = {
               sender: selectedVoice,
               blobUrl: audio.src,
             };
-            messagesArr.push(rachelMessage);
+            messagesArr.push(speakerMessage);
             setMessages(messagesArr);
 
             // Play audio
@@ -80,7 +80,7 @@ const Controller = () => {
   return (
     <div className='h-screen overflow-y-hidden'>
       {/* Title */}
-      <Title setMessages={setMessages} selectedVoice = {selectedVoice} />
+      <Title setMessages={setMessages} selectedVoice={selectedVoice} />
 
       {/* Button of selection voices */}
       <div className='text-center mt-3'>
