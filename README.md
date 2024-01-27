@@ -48,7 +48,7 @@ Experience the interactive Jarvis Smart Speaker on your local environment! 🚀
 
 ![All components of the speaker](https://hackster.imgix.net/uploads/attachments/981698/1_9Ovnzl7yNZJsbMgM7Q6tdA.jpeg?auto=compress%2Cformat&w=740&h=555&fit=max)
 
-[![Click to watch the video](jarvis-marvel-s-iron-man-3-second-screen-experience-trailer-480-ytshorts.savetube.me_thumbnail.jpg)](jarvis-marvel-s-iron-man-3-second-screen-experience-trailer-480-ytshorts.savetube.me.mp4)
+[![Click to watch the video](https://www.youtube.com/shorts/6i5hho2aD-E)
 
 
 
