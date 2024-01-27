@@ -80,7 +80,7 @@ const Controller = () => {
   return (
     <div className='h-screen overflow-y-hidden'>
       {/* Title */}
-      <Title setMessages={setMessages} />
+      <Title setMessages={setMessages} selectedVoice = {selectedVoice} />
 
       {/* Button of selection voices */}
       <div className='text-center mt-3'>
