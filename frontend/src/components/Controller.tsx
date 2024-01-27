@@ -6,10 +6,10 @@ import RecordMessage from './RecordMessage';
 const Controller = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<any[]>([]);
-  const [selectedVoice, setSelectedVoice] = useState('rachel');
+  const [selectedVoice, setSelectedVoice] = useState('Jarvis');
 
   const availableVoices = [
-    { id: 'rachel', name: 'Rachel' },
+    { id: 'Jarvis', name: 'Jarvis' },
     { id: 'shaun', name: 'Shaun' },
     { id: 'antoni', name: 'Antoni' },
     { id: 'sarah', name: 'Sarah' },
@@ -108,7 +108,7 @@ const Controller = () => {
               <div
                 key={index + audio.sender}
                 className={`flex flex-col ${
-                  audio.sender === 'rachel' ? 'flex items-end' : ''
+                  audio.sender === 'Jarvis' ? 'flex items-end' : ''
                 } ${audio.sender === 'antoni' ? 'flex items-end' : ''} ${
                   audio.sender === 'sarah' ? 'flex items-end' : ''
                 } ${audio.sender === 'shaun' ? 'flex items-end' : ''}`}
@@ -117,7 +117,7 @@ const Controller = () => {
                 <div className='mt-4 '>
                   <p
                     className={
-                      audio.sender === 'rachel' ||
+                      audio.sender === 'Jarvis' ||
                       audio.sender === 'antoni' ||
                       audio.sender === 'sarah' ||
                       audio.sender === 'shaun'

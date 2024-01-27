@@ -63,8 +63,7 @@ async def reset_conversation():
 # Post bot response
 # Note: Not playing back in browser when using post request.
 @app.post("/post-audio/")
-async def post_audio(file: UploadFile = File(...), voice: str = 'rachel'):
-
+async def post_audio(file: UploadFile = File(...), voice: str = "Jarvis"):
     # Convert audio to text - production
     # Save the file temporarily
     with open(file.filename, "wb") as buffer:
@@ -90,7 +89,7 @@ async def post_audio(file: UploadFile = File(...), voice: str = 'rachel'):
 
     # Convert chat response to audio
     logging.debug(f"Converting text to speech with voice: {voice}")
-    audio_output = convert_text_to_speech(chat_response, selected_voice = voice)
+    audio_output = convert_text_to_speech(chat_response, selected_voice=voice)
 
     # Guard: Ensure output
     if not audio_output:
