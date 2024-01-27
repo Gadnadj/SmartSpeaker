@@ -4,19 +4,19 @@
 Clone the project from my GitHub account: https://github.com/Gadnadj/SmartSpeaker.git
 
 Create a terminal and git clone the project by entering this line: 
-git clone https://github.com/YourName/ChatGPTSmartSpeaker.git
+git clone https://github.com/Gadnadj/SmartSpeaker.git
 
 Navigate to the frontend and backend directories in two separate terminals:
 
-# Terminal 1
+Terminal 1
 cd frontend
 npm install
 
-# Terminal 2
+Terminal 2
 cd backend
 npm install
 
-API Keys Configuration
+# API Keys Configuration
 Visit the OpenAI website to generate an API key: https://platform.openai.com/api-keys
 
 In the settings, retrieve the organization key (Organization ID).
@@ -29,7 +29,7 @@ OPEN_AI_ORG=your_organization_key
 OPEN_AI_API_KEY=your_openai_api_key
 ELEVEN_LABS_API_KEY=your_elevenlabs_api_key
 
-Running the Project
+#Running the Project
 Go back to the backend terminal and activate the virtual environment:
 
 source venv/bin/activate
