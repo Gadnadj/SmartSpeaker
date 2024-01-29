@@ -9,7 +9,7 @@ def convert_text_to_speech(message, selected_voice):
 
     # Map the voice name to the corresponding ID
     voice_mapping = {
-        "shaun": "9F4C8ztpNUmXkdDDbz3J",
+        "shaun": "voMw0GRnoBoGcopFPoqf",
         "Jarvis": "zr8KTOWwGVdfwNMcTtgs",
         "antoni": "DZyyFMXNpavMudLSm7A9",
         "sarah": "yi1Q6GP2jWKJk3kJ1uIS"

@@ -10,17 +10,14 @@ const Controller = () => {
 
   const availableVoices = [
     { id: 'Jarvis', name: 'Jarvis' },
-    { id: 'shaun', name: 'Shaun' },
-    { id: 'antoni', name: 'Antoni' },
-    { id: 'sarah', name: 'Sarah' },
+    { id: 'Shaun', name: 'Shaun' },
+    { id: 'Antoni', name: 'Antoni' },
+    { id: 'Sarah', name: 'Sarah' },
   ];
 
   const handleVoiceChange = (voiceID: string) => {
     console.log('Voice changed to:', voiceID);
-    setSelectedVoice((prevVoice) => {
-      console.log('Selected voice:', voiceID);
-      return voiceID;
-    });
+    setSelectedVoice(voiceID);
   };
 
   function createBlobURL(data: any) {
@@ -31,6 +28,7 @@ const Controller = () => {
 
   const handleStop = async (blobUrl: string) => {
     setIsLoading(true);
+    console.log(blobUrl, '1');
 
     // Append recorded message to messages
     const myMessage = { sender: 'me', blobUrl };
@@ -43,6 +41,7 @@ const Controller = () => {
         // Construct audio to send file
         const formData = new FormData();
         formData.append('file', blob, 'myFile.wav');
+        console.log(blobUrl, '2');
 
         // send form data to api endpoint
         await axios
@@ -103,46 +102,43 @@ const Controller = () => {
       <div className='flex flex-col justify-between h-full overflow-y-scroll pb-96'>
         {/* Conversation */}
         <div className='mt-5 px-5'>
-          {messages?.map((audio, index) => {
-            return (
-              <div
-                key={index + audio.sender}
-                className={`flex flex-col ${
-                  audio.sender === 'Jarvis' ? 'flex items-end' : ''
-                } ${audio.sender === 'antoni' ? 'flex items-end' : ''} ${
-                  audio.sender === 'sarah' ? 'flex items-end' : ''
-                } ${audio.sender === 'shaun' ? 'flex items-end' : ''}`}
-              >
-                {/* Sender */}
-                <div className='mt-4 '>
-                  <p
-                    className={
-                      audio.sender === 'Jarvis' ||
-                      audio.sender === 'antoni' ||
-                      audio.sender === 'sarah' ||
-                      audio.sender === 'shaun'
-                        ? 'text-right mr-2 italic text-green-500'
-                        : 'ml-2 italic text-blue-500'
-                    }
-                  >
-                    {audio.sender}
-                  </p>
+          {messages?.map((audio, index) => (
+            <div
+              key={index + audio.sender}
+              className={`flex flex-col ${
+                audio.sender === 'Jarvis' ? 'items-end' : ''
+              } ${audio.sender === 'Antoni' ? 'items-end' : ''} ${
+                audio.sender === 'Sarah' ? 'items-end' : ''
+              } ${audio.sender === 'Shaun' ? 'items-end' : ''}`}
+            >
+              {/* Sender */}
+              <div className='mt-4'>
+                <p
+                  className={
+                    audio.sender === 'Jarvis' ||
+                    audio.sender === 'Antoni' ||
+                    audio.sender === 'Sarah' ||
+                    audio.sender === 'Shaun'
+                      ? 'text-right mr-2 italic text-green-500'
+                      : 'ml-2 italic text-blue-500'
+                  }
+                >
+                  {audio.sender}
+                </p>
 
-                  {/* Message */}
-                  <audio
-                    src={audio.blobUrl}
-                    className='appearance-none'
-                    controls
-                  />
-                </div>
+                {/* Message */}
+                <audio
+                  src={audio.blobUrl}
+                  className='appearance-none'
+                  controls
+                />
               </div>
-            );
-          })}
+            </div>
+          ))}
 
           {messages.length === 0 && !isLoading && (
             <div className='text-center font-light italic mt-10'>
-              Send {selectedVoice} a message...{' '}
-              {/* Dynamically display selected voice */}
+              Send {selectedVoice} a message...
             </div>
           )}
 
@@ -157,10 +153,7 @@ const Controller = () => {
         <div className='fixed bottom-0 w-full py-6 border-t text-center bg-gradient-to-r from-sky-500 to-green-500'>
           <div className='flex justify-center items-center w-full'>
             <div>
-              <RecordMessage
-                handleStop={handleStop}
-                selectedVoice={selectedVoice}
-              />
+              <RecordMessage handleStop={handleStop} />
             </div>
           </div>
         </div>

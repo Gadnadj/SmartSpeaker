@@ -1,35 +1,96 @@
-import { ReactMediaRecorder } from 'react-media-recorder';
+import React, { useState, useEffect } from 'react';
 import RecordIcon from './RecordIcon';
+import { useReactMediaRecorder } from 'react-media-recorder';
 
 type Props = {
   handleStop: any;
-  selectedVoice: string;
 };
 
 const RecordMessage = ({ handleStop }: Props) => {
+  const { status, startRecording, stopRecording, mediaBlobUrl } =
+    useReactMediaRecorder({
+      audio: true,
+    });
+
+  const [isRecording, setIsRecording] = useState(false);
+  const [handleStopCalled, setHandleStopCalled] = useState(false);
+
+  useEffect(() => {
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      console.error('Speech Recognition API is not supported in this browser.');
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+
+    recognition.onresult = (event: any) => {
+      const transcript =
+        event.results[event.results.length - 1][0].transcript.trim();
+      console.log('Transcription: ', transcript);
+
+      if (transcript.toLowerCase() === 'hey rachel') {
+        console.log('hey dude im working perfectly');
+        startRecording();
+        setIsRecording(true);
+      } else if (transcript.toLowerCase() === 'stop') {
+        console.log('stop dude im working perfectly');
+        stopRecording();
+        setIsRecording(false);
+      }
+    };
+
+    recognition.start();
+
+    return () => {
+      recognition.stop();
+    };
+  }, [isRecording, startRecording, stopRecording]);
+
+  const handleMouseDown = () => {
+    startRecording();
+    setIsRecording(true);
+  };
+
+  const handleMouseUp = () => {
+    stopRecording();
+    setIsRecording(false);
+  };
+
+  useEffect(() => {
+    if (mediaBlobUrl && !isRecording && !handleStopCalled) {
+      handleStop(mediaBlobUrl);
+      setHandleStopCalled(true);
+    }
+  }, [mediaBlobUrl, isRecording, handleStopCalled, handleStop]);
+
+  useEffect(() => {
+    if (isRecording) {
+      setHandleStopCalled(false);
+    }
+  }, [isRecording]);
+
   return (
-    <ReactMediaRecorder
-      audio
-      onStop={handleStop}
-      render={({ status, startRecording, stopRecording }) => (
-        <div className='mt-2'>
-          <button
-            onMouseDown={startRecording}
-            onMouseUp={stopRecording}
-            className='bg-white p-4 rounded-full'
-          >
-            <RecordIcon
-              classText={
-                status == 'recording'
-                  ? 'animate-pulse text-red-500'
-                  : 'text-sky-500'
-              }
-            />
-          </button>
-          <p className='mt-2 text-white font-light'>{status}</p>
-        </div>
-      )}
-    />
+    <div className='mt-2'>
+      <button
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        className='bg-white p-4 rounded-full'
+      >
+        <RecordIcon
+          classText={
+            status === 'recording'
+              ? 'animate-pulse text-red-500'
+              : 'text-sky-500'
+          }
+        />
+      </button>
+      <p className='mt-2 text-white font-light'>{status}</p>
+    </div>
   );
 };
 
