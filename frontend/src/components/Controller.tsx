@@ -161,7 +161,7 @@ const Controller = () => {
             <div>
               <RecordMessage
                 handleStop={handleStop}
-                selectedVoice={selectedVoice}
+                //selectedVoice={selectedVoice}
               />
             </div>
           </div>

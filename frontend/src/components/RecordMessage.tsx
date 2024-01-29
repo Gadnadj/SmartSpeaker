@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import RecordIcon from './RecordIcon';
 import { useReactMediaRecorder } from 'react-media-recorder';
 
-type Props = {
+interface Props {
+  // Utilisez "interface" au lieu de "type" pour définir les props
   handleStop: any;
-  selectedVoice: string;
-};
+}
 
 const RecordMessage = ({ handleStop }: Props) => {
   const { status, startRecording, stopRecording, mediaBlobUrl } =
@@ -55,18 +55,29 @@ const RecordMessage = ({ handleStop }: Props) => {
       console.log('Transcription: ', transcript);
 
       if (transcript.toLowerCase() === 'hey rachel') {
-        console.log('hey dude im working perfectly');
+        console.log('Commande détectée : hey rachel');
         startRecording();
         setIsRecording(true);
       } else if (transcript.toLowerCase() === 'stop') {
-        console.log('stop dude im working perfectly');
+        console.log('Commande détectée : stop');
         stopRecording();
         setIsRecording(false);
       }
     };
 
     recognition.start();
-  }, [isRecording, startRecording, stopRecording]);
+
+    const restartRecognition = () => {
+      console.log('Restarting speech recognition...');
+      recognition.start();
+    };
+
+    setInterval(restartRecognition, 30000);
+
+    return () => {
+      recognition.stop();
+    };
+  }, [startRecording, stopRecording]);
 
   const handleMouseDown = () => {
     startRecording();
@@ -77,13 +88,6 @@ const RecordMessage = ({ handleStop }: Props) => {
     stopRecording();
     setIsRecording(false);
   };
-
-  /*useEffect(() => {
-    if (mediaBlobUrl && !isRecording && !handleStopCalled) {
-      handleStop(mediaBlobUrl);
-      setHandleStopCalled(true);
-    }
-  }, [mediaBlobUrl, isRecording, handleStopCalled, handleStop]);*/
 
   useEffect(() => {
     if (isRecording) {
