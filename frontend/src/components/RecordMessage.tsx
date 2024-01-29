@@ -11,9 +11,24 @@ const RecordMessage = ({ handleStop }: Props) => {
     useReactMediaRecorder({
       audio: true,
     });
+  const [localMediaBlobUrl, setLocalMediaBlobUrl] = useState<string | null>(
+    null
+  );
+
+  useEffect(() => {
+    setLocalMediaBlobUrl(mediaBlobUrl !== undefined ? mediaBlobUrl : null);
+  }, [mediaBlobUrl]);
 
   const [isRecording, setIsRecording] = useState(false);
   const [handleStopCalled, setHandleStopCalled] = useState(false);
+
+  useEffect(() => {
+    if (localMediaBlobUrl && mediaBlobUrl && !isRecording && !handleStopCalled) {
+      handleStop(localMediaBlobUrl);
+      // Réinitialiser localMediaBlobUrl à null après le traitement
+      setLocalMediaBlobUrl(null);
+    }
+  }, [localMediaBlobUrl]);
 
   useEffect(() => {
     const SpeechRecognition =
@@ -61,12 +76,12 @@ const RecordMessage = ({ handleStop }: Props) => {
     setIsRecording(false);
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (mediaBlobUrl && !isRecording && !handleStopCalled) {
       handleStop(mediaBlobUrl);
       setHandleStopCalled(true);
     }
-  }, [mediaBlobUrl, isRecording, handleStopCalled, handleStop]);
+  }, [mediaBlobUrl, isRecording, handleStopCalled, handleStop]);*/
 
   useEffect(() => {
     if (isRecording) {
