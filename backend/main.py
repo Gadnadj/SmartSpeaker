@@ -90,9 +90,12 @@ async def post_audio(file: UploadFile = File(...), voice: str = "Jarvis"):
     # Convert chat response to audio
     logging.debug(f"Converting text to speech with voice: {voice}")
     audio_output = convert_text_to_speech(chat_response, selected_voice=voice)
+    print("audio output {}".format(audio_output))
+
 
     # Guard: Ensure output
     if not audio_output:
+        print("Failed audio output {}".format(audio_output))
         logging.error("Failed audio output")
         raise HTTPException(status_code=400, detail="Failed audio output")
 

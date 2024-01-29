@@ -17,7 +17,10 @@ const Controller = () => {
 
   const handleVoiceChange = (voiceID: string) => {
     console.log('Voice changed to:', voiceID);
-    setSelectedVoice(voiceID);
+    setSelectedVoice((prevVoice) => {
+      console.log('Selected voice:', voiceID);
+      return voiceID;
+    });
   };
 
   function createBlobURL(data: any) {
@@ -29,6 +32,7 @@ const Controller = () => {
   const handleStop = async (blobUrl: string) => {
     setIsLoading(true);
     console.log(blobUrl, '1');
+    console.log(selectedVoice);
 
     // Append recorded message to messages
     const myMessage = { sender: 'me', blobUrl };
@@ -41,7 +45,6 @@ const Controller = () => {
         // Construct audio to send file
         const formData = new FormData();
         formData.append('file', blob, 'myFile.wav');
-        console.log(blobUrl, '2');
 
         // send form data to api endpoint
         await axios
@@ -56,12 +59,15 @@ const Controller = () => {
             const blob = res.data;
             const audio = new Audio();
             audio.src = createBlobURL(blob);
+            console.log(audio.src, 'audio')
+            console.log(blob, 'blob')
 
             // Append to audio
             const speakerMessage = {
               sender: selectedVoice,
               blobUrl: audio.src,
             };
+            console.log(speakerMessage, 'speakerMessage')
             messagesArr.push(speakerMessage);
             setMessages(messagesArr);
 
@@ -153,7 +159,10 @@ const Controller = () => {
         <div className='fixed bottom-0 w-full py-6 border-t text-center bg-gradient-to-r from-sky-500 to-green-500'>
           <div className='flex justify-center items-center w-full'>
             <div>
-              <RecordMessage handleStop={handleStop} />
+              <RecordMessage
+                handleStop={handleStop}
+                selectedVoice={selectedVoice}
+              />
             </div>
           </div>
         </div>

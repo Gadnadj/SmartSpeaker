@@ -4,6 +4,7 @@ import { useReactMediaRecorder } from 'react-media-recorder';
 
 type Props = {
   handleStop: any;
+  selectedVoice: string;
 };
 
 const RecordMessage = ({ handleStop }: Props) => {
@@ -23,7 +24,12 @@ const RecordMessage = ({ handleStop }: Props) => {
   const [handleStopCalled, setHandleStopCalled] = useState(false);
 
   useEffect(() => {
-    if (localMediaBlobUrl && mediaBlobUrl && !isRecording && !handleStopCalled) {
+    if (
+      localMediaBlobUrl &&
+      mediaBlobUrl &&
+      !isRecording &&
+      !handleStopCalled
+    ) {
       handleStop(localMediaBlobUrl);
       // Réinitialiser localMediaBlobUrl à null après le traitement
       setLocalMediaBlobUrl(null);
@@ -60,10 +66,6 @@ const RecordMessage = ({ handleStop }: Props) => {
     };
 
     recognition.start();
-
-    return () => {
-      recognition.stop();
-    };
   }, [isRecording, startRecording, stopRecording]);
 
   const handleMouseDown = () => {
