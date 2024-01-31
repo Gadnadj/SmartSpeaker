@@ -31,7 +31,6 @@ const Controller = () => {
 
   const handleStop = async (blobUrl: string) => {
     setIsLoading(true);
-    console.log(blobUrl, '1');
     console.log(selectedVoice);
 
     // Append recorded message to messages
@@ -59,8 +58,6 @@ const Controller = () => {
             const blob = res.data;
             const audio = new Audio();
             audio.src = createBlobURL(blob);
-            console.log(audio.src, 'audio')
-            console.log(blob, 'blob')
 
             // Append to audio
             const speakerMessage = {
@@ -92,10 +89,14 @@ const Controller = () => {
           <button
             key={voice.id}
             onClick={() => handleVoiceChange(voice.id)}
-            className={`mx-2 px-4 py-2 ${
+            className={`mx-2 px-4 py-2 transition duration-300 ease-in-out ${
               selectedVoice === voice.id
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-300 text-black'
+                ? voice.name === 'Sarah'
+                  ? 'bg-pink-500 text-white hover:bg-pink-600'
+                  : 'bg-blue-500 text-white hover:bg-blue-600'
+                : voice.name === 'Sarah'
+                ? 'bg-gray-300 hover:bg-pink-300 text-black '
+                : 'bg-gray-300 text-black hover:bg-sky-300'
             }`}
           >
             {voice.name}
@@ -124,7 +125,7 @@ const Controller = () => {
                     audio.sender === 'Antoni' ||
                     audio.sender === 'Sarah' ||
                     audio.sender === 'Shaun'
-                      ? 'text-right mr-2 italic text-green-500'
+                      ? 'text-right mr-2 italic text-pink-500'
                       : 'ml-2 italic text-blue-500'
                   }
                 >
@@ -155,8 +156,8 @@ const Controller = () => {
         </div>
 
         {/* Recorder */}
-        <div className='fixed bottom-0 w-full py-6 border-t text-center bg-gradient-to-r from-sky-500 to-green-500'>
-          <div className='flex justify-center items-center w-full'>
+        <div className='fixed bottom-0 w-full py-6 border-t text-center bg-gradient-to-r from-sky-500 to-indigo-500'>
+          <div className='flex justify-center items-center w-full '>
             <div>
               <RecordMessage
                 handleStop={handleStop}

@@ -30,7 +30,7 @@ function Title({ setMessages, selectedVoice }: Props) {
   };
 
   return (
-    <div className='flex justify-between items-center w-full p-4 bg-gray-900 text-white font-bold shadow'>
+    <div className='flex justify-between items-center w-full p-4 bg-gradient-to-r from-sky-500 to-indigo-500 text-white font-bold shadow'>
       <div className='italic'>{selectedVoice}</div>
       <button
         onClick={resetConversation}

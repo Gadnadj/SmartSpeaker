@@ -100,7 +100,7 @@ const RecordMessage = ({ handleStop }: Props) => {
       <button
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
-        className='bg-white p-4 rounded-full'
+        className='bg-white p-4 rounded-full shadow-lg'
       >
         <RecordIcon
           classText={
