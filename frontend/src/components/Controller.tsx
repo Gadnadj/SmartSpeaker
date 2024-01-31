@@ -67,7 +67,6 @@ const Controller = () => {
               sender: selectedVoice,
               blobUrl: audio.src,
             };
-            console.log(speakerMessage, 'speakerMessage')
             messagesArr.push(speakerMessage);
             setMessages(messagesArr);
 
