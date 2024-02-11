@@ -44,6 +44,7 @@ const RecordMessage = ({ handleStop }: Props) => {
       return;
     }
 
+    /*Create a new instance of SpeechRecognition*/
     const recognition = new SpeechRecognition();
     recognition.continuous = true;
     recognition.lang = 'en-US';
