@@ -25,6 +25,7 @@ const RecordMessage = ({ handleStop }: Props) => {
 
   /*Add the isRecording and handleStopCalled states*/
   const [isRecording, setIsRecording] = useState(false);
+  /*Add the handleStopCalled state to check if the handleStop function has been called*/
   const [handleStopCalled, setHandleStopCalled] = useState(false);
 
   useEffect(() => {
