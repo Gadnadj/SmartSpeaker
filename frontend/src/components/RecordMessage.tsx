@@ -93,6 +93,7 @@ const RecordMessage = ({ handleStop }: Props) => {
     setIsRecording(false);
   };
 
+  /*Reset the handleStopCalled state when the recording is started*/
   useEffect(() => {
     if (isRecording) {
       setHandleStopCalled(false);
