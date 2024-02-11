@@ -31,7 +31,7 @@ const RecordMessage = ({ handleStop }: Props) => {
       !handleStopCalled
     ) {
       handleStop(localMediaBlobUrl);
-      // Réinitialiser localMediaBlobUrl à null après le traitement
+      /*Reset the localMediaBlobUrl after traitment*/
       setLocalMediaBlobUrl(null);
     }
   }, [localMediaBlobUrl]);
