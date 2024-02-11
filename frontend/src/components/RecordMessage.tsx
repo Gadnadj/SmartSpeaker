@@ -35,7 +35,7 @@ const RecordMessage = ({ handleStop }: Props) => {
       setLocalMediaBlobUrl(null);
     }
   }, [localMediaBlobUrl]);
-
+/*Add SpeechRecogniton API to start and stop recording with voice commands*/
   useEffect(() => {
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
