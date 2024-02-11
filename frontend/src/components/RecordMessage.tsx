@@ -3,7 +3,6 @@ import RecordIcon from './RecordIcon';
 import { useReactMediaRecorder } from 'react-media-recorder';
 
 interface Props {
-  // Utilisez "interface" au lieu de "type" pour définir les props
   handleStop: any;
 }
 
