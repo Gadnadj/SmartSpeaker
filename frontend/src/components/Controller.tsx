@@ -89,6 +89,7 @@ const Controller = () => {
           <button
             key={voice.id}
             onClick={() => handleVoiceChange(voice.id)}
+            /*Personalize theme for voices */
             className={`mx-2 px-4 py-2 transition duration-300 ease-in-out ${
               selectedVoice === voice.id
                 ? voice.name === 'Sarah'
