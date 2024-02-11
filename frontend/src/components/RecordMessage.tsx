@@ -18,6 +18,7 @@ const RecordMessage = ({ handleStop }: Props) => {
     null
   );
 
+  /*Set the localMediaBlobUrl to the mediaBlobUrl when the mediaBlobUrl is defined*/
   useEffect(() => {
     setLocalMediaBlobUrl(mediaBlobUrl !== undefined ? mediaBlobUrl : null);
   }, [mediaBlobUrl]);
