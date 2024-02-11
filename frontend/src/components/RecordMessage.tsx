@@ -68,6 +68,7 @@ const RecordMessage = ({ handleStop }: Props) => {
 
     recognition.start();
 
+    /*Restart the recognition every 30 seconds*/
     const restartRecognition = () => {
       console.log('Restarting speech recognition...');
       recognition.start();
