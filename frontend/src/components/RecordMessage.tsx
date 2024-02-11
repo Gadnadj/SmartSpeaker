@@ -12,6 +12,8 @@ const RecordMessage = ({ handleStop }: Props) => {
     useReactMediaRecorder({
       audio: true,
     });
+
+  /*Add the localMediaBlobUrl state to store the mediaBlobUrl*/
   const [localMediaBlobUrl, setLocalMediaBlobUrl] = useState<string | null>(
     null
   );
