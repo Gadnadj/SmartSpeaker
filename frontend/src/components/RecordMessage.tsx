@@ -49,7 +49,7 @@ const RecordMessage = ({ handleStop }: Props) => {
     recognition.continuous = true;
     recognition.lang = 'en-US';
     recognition.interimResults = false;
-
+    /*Add voice commands to start and stop recording*/
     recognition.onresult = (event: any) => {
       const transcript =
         event.results[event.results.length - 1][0].transcript.trim();
