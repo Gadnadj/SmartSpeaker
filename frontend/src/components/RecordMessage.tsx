@@ -23,6 +23,7 @@ const RecordMessage = ({ handleStop }: Props) => {
     setLocalMediaBlobUrl(mediaBlobUrl !== undefined ? mediaBlobUrl : null);
   }, [mediaBlobUrl]);
 
+  /*Add the isRecording and handleStopCalled states*/
   const [isRecording, setIsRecording] = useState(false);
   const [handleStopCalled, setHandleStopCalled] = useState(false);
 
