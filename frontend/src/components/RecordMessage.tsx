@@ -76,6 +76,7 @@ const RecordMessage = ({ handleStop }: Props) => {
 
     setInterval(restartRecognition, 30000);
 
+    /*Stop the recognition when the component is unmounted*/
     return () => {
       recognition.stop();
     };
