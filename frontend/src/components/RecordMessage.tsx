@@ -6,6 +6,7 @@ interface Props {
   handleStop: any;
 }
 
+/*Create a RecordMessage component to record a message with the user's microphone*/
 const RecordMessage = ({ handleStop }: Props) => {
   const { status, startRecording, stopRecording, mediaBlobUrl } =
     useReactMediaRecorder({
