@@ -82,6 +82,7 @@ const RecordMessage = ({ handleStop }: Props) => {
     };
   }, [startRecording, stopRecording]);
 
+  /*Add the start and stop recording functions*/
   const handleMouseDown = () => {
     startRecording();
     setIsRecording(true);
