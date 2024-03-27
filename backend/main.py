@@ -7,6 +7,7 @@ from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from decouple import config
+from pydantic import BaseModel  # Assurez-vous d'ajouter cette ligne
 import openai
 import logging
 
@@ -46,6 +47,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class TextRequest(BaseModel):
+    text: str
+    voice: str
+
+
 
 # Check health
 @app.get("/health")
@@ -58,6 +64,45 @@ async def check_health():
 async def reset_conversation():
     reset_messages()
     return {"response": "conversation reset"}
+
+
+import logging
+
+@app.post("/post-text/")
+async def post_text(request: TextRequest):
+    try:
+        # Log the received text
+        logging.info(f"Received text: {request.text}")
+
+        # Get chat response
+        chat_response = get_chat_response(request.text)
+        
+        # Log the chat response
+        logging.info(f"Chat response: {chat_response}")
+
+        # Store messages
+        store_messages(request.text, chat_response)
+        
+        # Convert chat response to audio
+        audio_output = convert_text_to_speech(chat_response, selected_voice=request.voice)
+        
+        # Guard: Ensure chat response and audio output
+        if not chat_response:
+            raise HTTPException(status_code=400, detail="Failed chat response")
+        if not audio_output:
+            raise HTTPException(status_code=400, detail="Failed audio output")
+
+        # Create a generator that yields chunks of data
+        def iterfile():
+            yield audio_output
+        
+        # Return output audio
+        return StreamingResponse(iterfile(), media_type="application/octet-stream")
+    except Exception as e:
+        # Log any exceptions that occur
+        logging.error(f"Error occurred: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 
 # Post bot response

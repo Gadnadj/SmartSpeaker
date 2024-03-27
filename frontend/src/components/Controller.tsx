@@ -2,17 +2,31 @@ import { useState } from 'react';
 import Title from './Title';
 import axios from 'axios';
 import RecordMessage from './RecordMessage';
+import Select from 'react-select'; // Assurez-vous d'avoir installé react-select
+import { SingleValue, ActionMeta } from 'react-select';
 
 const Controller = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<any[]>([]);
   const [selectedVoice, setSelectedVoice] = useState('Jarvis');
+  const [selectedGame, setSelectedGame] = useState(null); // Ajout pour gérer le jeu sélectionné
 
   const availableVoices = [
     { id: 'Jarvis', name: 'Jarvis' },
     { id: 'Shaun', name: 'Shaun' },
     { id: 'Antoni', name: 'Antoni' },
     { id: 'Sarah', name: 'Sarah' },
+  ];
+
+  const availableGames = [
+    { value: 'game1', label: 'Riddles and Puzzles' },
+    { value: 'game2', label: '20 Questions' },
+    { value: 'game3', label: 'Quiz' },
+    { value: 'game3', label: 'Collaborative Storytelling' },
+    { value: 'game3', label: 'Hangman' },
+    { value: 'game3', label: 'Find the Synonym or Antonym' },
+    { value: 'game3', label: 'Word Games' },
+    { value: 'game3', label: 'Charades' },
   ];
 
   const handleVoiceChange = (voiceID: string) => {
@@ -78,10 +92,61 @@ const Controller = () => {
       });
   };
 
+  const handleGameSelection = async (
+    newValue: SingleValue<{ value: string; label: string } | null>,
+    actionMeta: ActionMeta<{ value: string; label: string } | null>
+  ) => {
+    if (!newValue) return;
+
+    setIsLoading(true);
+    try {
+      const text = `let's play ${newValue.label} together`;
+      const voice = selectedVoice;
+
+      const response = await axios.post(
+        'http://localhost:8000/post-text',
+        { text, voice },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          responseType: 'blob',
+        }
+      );
+
+      const audioUrl = createBlobURL(response.data);
+
+      // Créer un nouvel objet de message contenant l'URL de l'audio
+      const audioMessage = { sender: 'Jarvis', blobUrl: audioUrl };
+
+      // Ajouter le nouvel objet de message à la liste des messages
+      setMessages((prevMessages) => [...prevMessages, audioMessage]);
+
+      // Lancer automatiquement la lecture de l'audio
+      const audio = new Audio(audioUrl);
+      audio.play();
+    } catch (error) {
+      console.error("Erreur lors de l'envoi de la sélection du jeu :", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className='h-screen overflow-y-hidden'>
       {/* Title */}
       <Title setMessages={setMessages} selectedVoice={selectedVoice} />
+
+      {/* Liste déroulante pour la sélection des jeux, positionnée en haut à droite */}
+      <div className='absolute top-0 right-12 m-2'>
+        <Select
+          options={availableGames}
+          onChange={handleGameSelection}
+          value={selectedGame}
+          placeholder='Choose a game'
+          className='w-64' // Largeur fixe, ajustez selon vos besoins
+        />
+      </div>
 
       {/* Button of selection voices */}
       <div className='text-center mt-3'>

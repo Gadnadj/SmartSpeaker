@@ -13,7 +13,8 @@
     "axios": "^1.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-media-recorder": "^1.6.6"
+    "react-media-recorder": "^1.6.6",
+    "react-select": "^5.8.0"
   },
   "devDependencies": {
     "@types/annyang": "^2.6.5",
