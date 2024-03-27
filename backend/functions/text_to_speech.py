@@ -4,15 +4,17 @@ from decouple import config
 ELEVEN_LABS_API_KEY = config("ELEVEN_LABS_API_KEY")
 
 
+# 1ns94GwK9YDCJoL6Nglv Nicolas
+# AmMsHJaCw4BtwV3KoUXF Sam
 def convert_text_to_speech(message, selected_voice):
     body = {"text": message, "voice_settings": {"stability": 0, "similarity_boost": 0}}
 
     # Map the voice name to the corresponding ID
     voice_mapping = {
         "Shaun": "zr8KTOWwGVdfwNMcTtgs",
-        "Jarvis": "zr8KTOWwGVdfwNMcTtgs",
+        "Jarvis": "1ns94GwK9YDCJoL6Nglv",
         "Antoni": "DZyyFMXNpavMudLSm7A9",
-        "Sarah": "yi1Q6GP2jWKJk3kJ1uIS"
+        "Sarah": "yi1Q6GP2jWKJk3kJ1uIS",
         # Add more voices as needed
     }
 
@@ -29,6 +31,9 @@ def convert_text_to_speech(message, selected_voice):
         "accept": "audio/mpeg",
     }
     print("selected_voice_id", selected_voice_id)
+    shaun_number = voice_mapping.get("Shaun")
+    print("Le numéro de Shaun est :", shaun_number)
+
     endpoint = f"https://api.elevenlabs.io/v1/text-to-speech/{selected_voice_id}"
 
     try:
