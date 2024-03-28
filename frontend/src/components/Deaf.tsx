@@ -37,53 +37,6 @@ const Deaf = () => {
     setSelectedVoice(voiceID);
   };
 
-  function createBlobURL(data: any) {
-    const blob = new Blob([data], { type: 'audio/mpeg' });
-    const url = window.URL.createObjectURL(blob);
-    return url;
-  }
-
-  const handleStop = async (blobUrl: string) => {
-    setIsLoading(true);
-    const myMessage = { sender: 'me', blobUrl };
-    const messagesArr = [...messages, myMessage];
-
-    fetch(blobUrl)
-      .then((res) => res.blob())
-      .then(async (blob) => {
-        const formData = new FormData();
-        formData.append('file', blob, 'myFile.wav');
-
-        await axios
-          .post('http://localhost:8000/post-audio', formData, {
-            params: { voice: selectedVoice },
-            headers: {
-              'Content-Type': 'audio/mpeg',
-            },
-            responseType: 'arraybuffer',
-          })
-          .then((res: any) => {
-            const blob = res.data;
-            const audio = new Audio();
-            audio.src = createBlobURL(blob);
-
-            const speakerMessage = {
-              sender: selectedVoice,
-              blobUrl: audio.src,
-            };
-            messagesArr.push(speakerMessage);
-            setMessages(messagesArr);
-
-            setIsLoading(false);
-            audio.play();
-          })
-          .catch((err: any) => {
-            console.error(err);
-            setIsLoading(false);
-          });
-      });
-  };
-
   const handleGameSelection = async (
     newValue: SingleValue<{ value: string; label: string } | null>,
     actionMeta: ActionMeta<{ value: string; label: string } | null>
@@ -96,28 +49,76 @@ const Deaf = () => {
       const voice = selectedVoice;
 
       const response = await axios.post(
-        'http://localhost:8000/post-text',
+        'http://localhost:8000/post-text-game/',
         { text, voice },
         {
           headers: {
             'Content-Type': 'application/json',
           },
-          responseType: 'blob',
+          responseType: 'text', // Change responseType to 'text'
         }
       );
 
-      const audioUrl = createBlobURL(response.data);
-      const audioMessage = { sender: 'Jarvis', blobUrl: audioUrl };
-      setMessages((prevMessages) => [...prevMessages, audioMessage]);
-
-      const audio = new Audio(audioUrl);
-      audio.play();
+      // Assuming response.data contains the text response from the server
+      const textResponse = response.data;
+      const textMessage = { sender: 'Jarvis', content: textResponse }; // Use content instead of blobUrl for text messages
+      setMessages((prevMessages) => [...prevMessages, textMessage]);
     } catch (error) {
       console.error('Error occurred during game selection post:', error);
     } finally {
       setIsLoading(false);
     }
   };
+
+  const handleStop = async (blobUrl: string) => {
+    setIsLoading(true);
+    const myMessage = { sender: 'me', blobUrl };
+    const messagesArr = [...messages, myMessage];
+
+    // Fetch the audio blob
+    fetch(blobUrl)
+      .then((res) => res.blob())
+      .then(async (blob) => {
+        // Create a FormData object and append the audio blob
+        const formData = new FormData();
+        formData.append('file', blob, 'myFile.wav');
+
+        try {
+          // Send the audio file to the backend for processing
+          const response = await axios.post(
+            'http://localhost:8000/post-text-text',
+            formData,
+            {
+              params: { voice: selectedVoice },
+              headers: {
+                'Content-Type': 'audio/mpeg',
+              },
+            }
+          );
+
+          // Extract the transcribed text from the response
+          const transcribedText = response.data;
+
+          // Add the transcribed text to messages
+          const speakerMessage = {
+            sender: 'Jarvis', // Assuming the response is from the Jarvis AI
+            content: transcribedText,
+          };
+          messagesArr.push(speakerMessage);
+          setMessages(messagesArr);
+
+          setIsLoading(false);
+        } catch (error) {
+          console.error('Error occurred while processing audio:', error);
+          setIsLoading(false);
+        }
+      });
+  };
+
+  function createBlobURL(data: any) {
+    const blob = new Blob([data], { type: 'audio/mpeg' });
+    return URL.createObjectURL(blob);
+  }
 
   const toggleDisabilityMenu = () => {
     setIsDisabilityMenuOpen((prev) => !prev);
@@ -145,13 +146,15 @@ const Deaf = () => {
   };
 
   const handleSourdMalentendantOption = () => {
-    navigate('/sourdsmalentendants');
+    navigate('/deaf');
   };
 
   return (
     <div className='h-screen overflow-y-hidden'>
       <Title setMessages={setMessages} selectedVoice={selectedVoice} />
-      <p>sourds et malentandants</p>
+      <p className='font-bold text-gray-800 text-center text-3xl'>
+        Deaf and Hard of Hearing
+      </p>
 
       <div className='absolute top-0 right-12 m-2'>
         <Select
@@ -185,31 +188,31 @@ const Deaf = () => {
 
       <div className='flex flex-col justify-between h-full overflow-y-scroll pb-96'>
         <div className='mt-5 px-5'>
-          {messages?.map((audio, index) => (
+          {messages?.map((message, index) => (
             <div
-              key={index + audio.sender}
+              key={index}
               className={`flex flex-col ${
-                audio.sender === 'Jarvis' ? 'items-end' : ''
-              } ${audio.sender === 'Antoni' ? 'items-end' : ''} ${
-                audio.sender === 'Sarah' ? 'items-end' : ''
-              } ${audio.sender === 'Shaun' ? 'items-end' : ''}`}
+                message.sender === 'Jarvis' ? 'items-end' : ''
+              }`}
             >
               <div className='mt-4'>
-                <p
-                  className={
-                    audio.sender === 'Jarvis' || audio.sender === 'Antoni'
-                      ? 'text-right mr-2 italic text-pink-500'
-                      : 'ml-2 italic text-blue-500'
-                  }
-                >
-                  {audio.sender}
-                </p>
-
-                <audio
-                  src={audio.blobUrl}
-                  className='appearance-none'
-                  controls
-                />
+                {message.sender === 'Jarvis' ? (
+                  <div className='text-right mr-2 italic text-pink-500'>
+                    {message.sender}
+                  </div>
+                ) : (
+                  <div className='ml-2 italic text-blue-500'>
+                    {message.sender}
+                  </div>
+                )}
+                {message.blobUrl ? (
+                  <audio controls className='ml-2'>
+                    <source src={message.blobUrl} type='audio/mpeg' />
+                    Your browser does not support the audio element.
+                  </audio>
+                ) : (
+                  <p className='ml-2'>{message.content}</p>
+                )}
               </div>
             </div>
           ))}
@@ -234,7 +237,6 @@ const Deaf = () => {
             </div>
           </div>
         </div>
-
         <div
           className='fixed left-0 top-1/2 transform -translate-y-1/2 ml-2'
           ref={disabilityMenuRef}

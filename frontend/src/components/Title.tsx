@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 type Props = {
   setMessages: any;
@@ -16,7 +17,7 @@ function Title({ setMessages, selectedVoice }: Props) {
     await axios
       .get('http://localhost:8000/reset')
       .then((res) => {
-        if (res.status == 200) {
+        if (res.status === 200) {
           setMessages([]);
         } else {
           console.error('There was an error with the API request.');
@@ -31,7 +32,10 @@ function Title({ setMessages, selectedVoice }: Props) {
 
   return (
     <div className='flex justify-between items-center w-full p-4 bg-gradient-to-r from-sky-500 to-indigo-500 text-white font-bold shadow'>
-      <div className='italic'>{selectedVoice}</div>
+      <Link to='/' className='text-white'>
+        {' '}
+        {selectedVoice}{' '}
+      </Link>
       <button
         onClick={resetConversation}
         className={

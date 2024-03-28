@@ -8,7 +8,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path='/' element={<Controller />} />
-        <Route path='/sourdsmalentendants' element={<Deaf />} />
+        <Route path='/deaf' element={<Deaf />} />
       </Routes>
     </Router>
   );

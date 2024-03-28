@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Title from './Title';
@@ -145,7 +146,7 @@ const Controller = () => {
   };
 
   const handleSourdMalentendantOption = () => {
-    navigate('/sourdsmalentendants');
+    navigate('/deaf');
   };
 
   return (
