@@ -6,7 +6,7 @@ import RecordMessage from './RecordMessage';
 import Select, { SingleValue } from 'react-select';
 import { ActionMeta } from 'react-select';
 
-const Controller = () => {
+const Deaf = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<any[]>([]);
@@ -113,7 +113,7 @@ const Controller = () => {
       const audio = new Audio(audioUrl);
       audio.play();
     } catch (error) {
-      console.error("Erreur lors de l'envoi de la sélection du jeu :", error);
+      console.error('Error occurred during game selection post:', error);
     } finally {
       setIsLoading(false);
     }
@@ -151,6 +151,7 @@ const Controller = () => {
   return (
     <div className='h-screen overflow-y-hidden'>
       <Title setMessages={setMessages} selectedVoice={selectedVoice} />
+      <p>sourds et malentandants</p>
 
       <div className='absolute top-0 right-12 m-2'>
         <Select
@@ -282,4 +283,4 @@ const Controller = () => {
   );
 };
 
-export default Controller;
+export default Deaf;

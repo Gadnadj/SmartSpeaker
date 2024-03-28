@@ -1,11 +1,17 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Controller from './components/Controller';
+import Deaf from './components/Deaf';
 
-function App() {
+const App = () => {
   return (
-    <div className=''>
-      <Controller />
-    </div>
+    <Router>
+      <Routes>
+        <Route path='/' element={<Controller />} />
+        <Route path='/sourdsmalentendants' element={<Deaf />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
